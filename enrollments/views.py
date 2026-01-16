@@ -57,3 +57,45 @@ class EnrollCourseView(APIView):
 
         serializer = EnrollmentSerializer(enrollment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def get(self, request, course_slug):
+        user = request.user
+
+        # Validate course
+        try:
+            course = Course.objects.get(slug=course_slug)
+        except Course.DoesNotExist:
+            return Response(
+                {"detail": "Course not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Get enrollment
+        try:
+            enrollment = Enrollment.objects.get(user=user, course=course)
+        except Enrollment.DoesNotExist:
+            return Response(
+                {"detail": "User not enrolled"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = EnrollmentSerializer(enrollment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class EnrolledCourse(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        # Get enrollment
+        try:
+            enrollments = Enrollment.objects.filter(user=user)
+        except Enrollment.DoesNotExist:
+            return Response(
+                {"detail": "User not enrolled"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = EnrollmentSerializer(enrollments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

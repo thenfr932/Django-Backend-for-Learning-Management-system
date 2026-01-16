@@ -25,6 +25,7 @@ class Enrollment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
+    # course_name=models.ForeignKey("courses.Course",to_field="title", on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="student")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
     enrolled_at = models.DateTimeField(auto_now_add=True)
