@@ -139,7 +139,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "job_title",
             "bio",
             "company",
-            "avatar_url",
+            "oauth_profile_url",
             "linkedin_url",
             "preferences",
             "timezone",

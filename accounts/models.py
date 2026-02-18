@@ -20,7 +20,16 @@ class User(AbstractUser):
         choices=[("google", "Google OAuth"), ("email", "Email/Password")],
         default="email",
     )
-
+    role = models.CharField(
+        max_length=20,
+        choices=[
+            ("student", "Student"),
+            ("admin", "admin"),
+            ("faculty", "faculty"),
+            ("corporate-trainer", "corporaate-trainer"),
+        ],
+        default="student",
+    )
     is_oauth_user = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"

@@ -81,3 +81,4 @@ celerybeat-schedule
 # Project-specific (already ignored):
 /ARCH
 /backup
+urls.csv

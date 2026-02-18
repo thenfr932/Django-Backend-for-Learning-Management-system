@@ -17,10 +17,8 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# print(BASE_DIR)
 # Load environment variables from .env file
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
-# print(os.getenv("GOOGLE_OAUTH_CLIENT_ID"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -39,7 +37,6 @@ GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
 GOOGLE_OAUTH_REDIRECT_URI = os.getenv(
     "GOOGLE_OAUTH_REDIRECT_URI", "http://localhost:3000/dashboard"
 )
-# print(GOOGLE_OAUTH_CLIENT_ID)
 
 # Application definition
 
@@ -50,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
+    "rest_framework_simplejwt.token_blacklist",
     "accounts",
     "courses",
     "enrollments",
@@ -70,8 +69,35 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+
+
+# ✅ Required headers for JWT + JSON requests
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+# ✅ Required for Django to accept cross-origin POST requests
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# ✅ Cookie must NOT be SameSite=Strict for cross-origin requests
+# These are the correct settings for local development:
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = False  # True in production (HTTPS)
+CSRF_COOKIE_SECURE = False  # True in production (HTTPS)
 
 ROOT_URLCONF = "config.urls"
 

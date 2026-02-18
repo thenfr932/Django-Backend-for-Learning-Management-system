@@ -49,6 +49,7 @@ class GoogleOAuthView(APIView):
                 "email": user.email,
                 "firstName": user.first_name,
                 "lastName": user.last_name,
+                "role": user.role,
                 "oauth_profile_url": (
                     user.profile.oauth_profile_url if hasattr(user, "profile") else None
                 ),
@@ -111,6 +112,7 @@ class LoginView(APIView):
                 "userId": user.id,
                 "username": user.username,
                 "email": user.email,
+                "role": user.role,
                 "access": str(refresh.access_token),
             },
             status=status.HTTP_200_OK,
@@ -166,6 +168,7 @@ class LogoutView(APIView):
                 token = RefreshToken(refresh_token)
                 token.blacklist()  # Requires 'rest_framework_simplejwt.token_blacklist'
             except TokenError:
+                print("Invalid refresh token", TokenError)
                 pass
 
         response = Response({"success": True}, status=status.HTTP_200_OK)
