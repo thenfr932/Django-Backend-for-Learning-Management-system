@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "courses",
     "enrollments",
     "payments",
+    "assignments",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
