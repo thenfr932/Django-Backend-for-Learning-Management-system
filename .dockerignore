@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.*
+
+# Database (SQLite — not used in production)
+db.sqlite3
+*.sqlite3
+
+# Project-specific
+backup/
+ARCH/
+apps/
+urls.csv
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation / CI
+README.md
+.github/
+Makefile
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Media (handled by volumes)
+media/

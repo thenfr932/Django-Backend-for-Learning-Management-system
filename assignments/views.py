@@ -159,7 +159,7 @@ class StudentSubmissionViewSet(viewsets.ModelViewSet):
 #         return Submission.objects.all()
 class FacultyAssignmentViewSet(viewsets.ModelViewSet):
     serializer_class = AssignmentCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsFaculty]
 
     def get_queryset(self) -> QuerySet[Assignment]:
         return Assignment.objects.filter(course__owner=self.request.user)
