@@ -1,4 +1,4 @@
-# InternGrad Solutions Backend
+# Django Backend for Learning Mangement System
 
 A Django-based backend for the InternGrad platform, providing APIs for course management, user accounts, enrollments, and payments.
 
@@ -13,7 +13,7 @@ A Django-based backend for the InternGrad platform, providing APIs for course ma
 
 ## Project Overview
 
-InternGrad Solutions Backend is a Django REST Framework application that manages:
+This is a Django REST Framework application that manages:
 
 - **Accounts**: User registration and authentication
 - **Courses**: Course management and lessons
@@ -33,8 +33,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/InternGradIndia/interngrad-solutions-backend.git
-cd interngrad-backend
+git clone https://github.com/thenfr932/Django-Backend-for-Learning-Management-system.git
+cd Django-Backend-for-Learning-Management-system
 ```
 
 ### 2. Create a Virtual Environment
@@ -145,7 +145,7 @@ Press `Ctrl+C` in the terminal to stop the development server.
 ## Project Structure
 
 ```
-interngrad-backend/
+Django-Backend-for-Learning-Management-system/
 ├── accounts/              # User authentication and profile management
 │   ├── models.py
 │   ├── views.py
