@@ -6,6 +6,7 @@ Shared configuration used by both development and production environments.
 from pathlib import Path
 from datetime import timedelta
 import os
+import requests
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,9 +17,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 
 # --- SECURITY ---
-SECRET_KEY = os.getenv("SECRET_KEY", "INSECURE-KEY-CHANGE-IN-PRODUCTION")
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+
+# Dynamically add the ECS task's private IP for ALB health checks
+ECS_METADATA_URL = os.environ.get("ECS_CONTAINER_METADATA_URI_V4")
+if ECS_METADATA_URL:
+    try:
+        metadata = requests.get(f"{ECS_METADATA_URI_V4}/task", timeout=2).json()
+        for container in metadata.get("Containers", []):
+            for network in container.get("Networks", []):
+                for ip in network.get("IPv4Addresses", []):
+                    ALLOWED_HOSTS.append(ip)
+        # print(ALLOWED_HOSTS)
+    except Exception:
+        pass
 
 # --- Google OAuth ---
 GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
@@ -87,7 +101,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # --- Password validation ---
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
